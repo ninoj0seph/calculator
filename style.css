@@ -1,0 +1,110 @@
+.container{
+    width: 400px;
+    height: 600px;
+    background-color: #0f192a;
+    text-align: center;
+    font-size: 2.0em;
+    border-radius: 10px;
+}
+
+.brandName{
+    width: 100%;
+    height: 9%;
+    background-color: #0f192a;
+    color: white;
+    text-align: left;
+}
+
+.brandName span{
+    font-family: Eurostile;
+    font-weight: bold;
+    color : #0B76E9;
+    padding-left: 7%;
+}
+
+.displayBox{
+    width: 90%;
+    height: 25%;
+    background-color: #3f5fbf;
+    margin: 0 5% 5% 5%;
+    border-radius: 10px;
+}
+
+.buttonContainer {
+    position: relative;
+    width: 90%;
+    height: 70%;
+    margin: 5%;
+}
+
+.clearButtonsContainer {
+    height: 12%;
+    width: 70%;
+    margin-bottom: 2%;
+}
+
+.clearButtonsContainer div{
+    display: inline-block;
+    width: 40%;
+    height: 100%;
+    margin-left: 3%;
+    background-color: red;
+    border-radius: 10px;
+}
+
+.clearButtonsContainer span{
+    position: relative;
+    top: 12%;
+}
+
+.numberButtonsContainer{
+    width: 70%;
+    height: 75%;
+}
+
+.numberButtonsContainer div{
+    display: inline-block;
+    width: 30%;
+    height: 18%;
+    margin: 4% 0 4% 0;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.numberButtonsContainer span{
+    position: relative;
+    top: 17%;
+}
+
+.operatorButtonContainer{
+    float: right;
+    height: 93%;
+    width: 20%;
+    position: relative;
+    right: 5%;
+    bottom : 14%;
+}
+
+.operatorButtonContainer div{
+    width: 100%;
+    height: 21%;
+    margin-bottom: 15%;
+    background-color: #428bdd;
+    border-radius: 10px;
+
+}
+
+.operatorButtonContainer span{
+    position: relative;
+    top: 25%;
+}
+
+@media screen and (max-width: 500px) {
+    body{
+        background-color: #0f192a;
+    }
+
+    .container{
+        width: 100vw;
+    }
+}
