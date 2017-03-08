@@ -3,11 +3,14 @@ $(document).ready(clickHandler);
 
 function clickHandler() {
     $(".numberButtonsContainer").on('click', 'div', numberClicked);
-    $(".operatorButtonContainer").on('click', 'div', operatorClicked)
+    $(".operatorButtonContainer").on('click', 'div', operatorClicked);
+    $(".clearButtonsContainer").on('click', 'div', function () {
+        reset.clear($(this).text());
+    });
 }
 
 function numberClicked(){
-    var number = $(this).text()
+    var number = $(this).text();
     if(number === "="){
         equalSignClicked();
         return;
@@ -16,20 +19,18 @@ function numberClicked(){
         $(".displayBox").append(container[container.length -1]);
     } else {
         container[container.length - 1] += (number);
-        $(".displayBox").append(container[container.length -1 + " "]);
     }
-
+    $(".displayBox").text(container[container.length -1]);
     console.log(container);
 }
 
 function operatorClicked(){
-    var opperator = $(this).text();
+    var operator = $(this).text();
     if(!isNaN(container[container.length-1])){
-        container.push(opperator);
+        container.push(operator);
     } else {
-        container[container.length - 1] = opperator;
+        container[container.length - 1] = operator;
     }
-    $(".displayBox").append(container[container.length -1]);
     console.log(container);
 }
 
@@ -39,14 +40,15 @@ function equalSignClicked(){
             container[i] = parseFloat(container[i]);
         }
     }
-    operate.findOperator(container);
+    operator.findAndOperate(container);
 }
 
-var operate = {
-    findOperator : function (arrayInput) {
-        for(i = 0; i < container.length; i++){
-            if(arrayInput[i] === "+" || arrayInput[i] === "-" || arrayInput[i] === "X" || arrayInput[i] === "÷"){
-                arrayInput[0] = this[arrayInput[i]](arrayInput[i-1],arrayInput[i+1]);
+var operator = {
+    findAndOperate : function (arrayInput) {
+        for(var x = 0; x < arrayInput.length; x++){
+            // try using find
+            if(arrayInput[x] === "+" || arrayInput[x] === "-" || arrayInput[x] === "X" || arrayInput[x] === "÷"){
+                arrayInput[0] = this[arrayInput[x]](arrayInput[x-1],arrayInput[x+1]);
                 arrayInput.splice(1,arrayInput.length);
                 console.log(arrayInput);
                 $('.displayBox').text(arrayInput[0]);
@@ -64,5 +66,23 @@ var operate = {
     },
     "÷" : function (numberOne, numberTwo) {
         return numberOne / numberTwo;
+    }
+};
+
+var reset = {
+    "clear" : function (type) {
+        this[type]();
+        console.log(container);
+    },
+
+    "CE" : function () {
+        container = [];
+        $(".displayBox").text("Cleared");
+    },
+    "C" : function () {
+        if(container.length > 0) {
+            container[container.length - 1] = "";
+            $(".displayBox").text("");
+        }
     }
 };
