@@ -1,6 +1,7 @@
-//Console.logs are available and present for demonstration and review purposes but will be deleted on final release
+//Console.logs are available and present for demonstration and review purposes only but will be deleted on final release.
 var reset = new clearConstructor();
 var click = new clickConstructor();
+var display = new displayConstructor();
 $(document).ready(clickHandler);
 
 function clickHandler() {
@@ -29,9 +30,8 @@ function clickConstructor() {
             this.container[this.container.length - 1] += (number);
         } else {
             this.container.push(number);
-            //$(".displayBox").append(this.container[this.container.length -1]);
         }
-        $(".displayBox").text(this.container[this.container.length -1]);
+        display.values(this.container[this.container.length -1]);
         console.log(this.container);
     };
 
@@ -46,8 +46,22 @@ function clickConstructor() {
     };
 
     this.equalSignClicked = function () {
-        console.log("=");
-        operator.findAndOperate(this.container);
+        if(this.lastSet === undefined && this.answer === undefined){
+            this.lastSet = this.container.slice(0);
+            console.log("=");
+            console.log(this.lastSet);
+            this.answer = operator.findAndOperate(this.container);
+            display.values(this.answer);
+        } else {
+            console.log(this.lastSet);
+            this.container = this.lastSet.slice(0);
+            this.container[0] = this.answer;
+            console.log(this.container);
+            this.answer = operator.findAndOperate(this.container);
+            display.values(this.answer);
+        }
+
+
     };
 
     this.decimalClicked = function () {
@@ -96,7 +110,8 @@ var operator = {
             this.index = arrayInput.indexOf("-");
         }
         console.log(arrayInput[0]);
-        $('.displayBox').text(arrayInput[0]);
+
+        return arrayInput.shift();
     },
 
     "+" : function (numberOne, numberTwo) {
@@ -121,16 +136,24 @@ function clearConstructor() {
     this.CE = function () {
         click.container = [];
         click.decimal = false;
-        $(".displayBox").text("Cleared");
+        click.lastSet = undefined;
+        click.answer = undefined;
+        display.values("Cleared");
         setTimeout(function (){
-            $(".displayBox").text("");
+            display.values("");
         },100);
     };
     this.C = function () {
         if(!isNaN(click.container[click.container.length - 1]) && click.container.length > 0 ) {
             click.decimal = false;
             click.container[click.container.length - 1] = "";
-            $(".displayBox").text("");
+            display.values("");
         }
+    };
+}
+
+function displayConstructor(){
+    this.values = function (valueToDisplay) {
+        $('.displayBox').text(valueToDisplay);
     };
 }
