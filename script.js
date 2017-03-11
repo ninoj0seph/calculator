@@ -19,7 +19,7 @@ function clickHandler() {
 function clickConstructor() {
     this.container = [];
     this.decimal = false;
-    this.emptyClick = -1;
+    this.emptyClick = 0;
     this.numberClicked = function (number) {
         if(number === "="){
             this.equalSignClicked();
@@ -40,9 +40,7 @@ function clickConstructor() {
         this.decimal = false;
         if(!isNaN(this.container[this.container.length-1])){
             this.container.push(operator);
-        // } else if(isNaN(this.container[this.container.length-1]) && this.container > 0) {
-        //     this.container[this.container.length - 1] = operator;
-        } else if(this.container > 0){
+        } else if(this.container.length >= 1){
             this.container[this.container.length - 1] = operator;
         }
         console.log(this.container);
@@ -50,24 +48,22 @@ function clickConstructor() {
 
     this.equalSignClicked = function () {
         if(this.container.length < 1){
-            display.values(++this.emptyClick % 4 === 0 ? "r3ady" : "");
+            display.values(++this.emptyClick % 4 === 0? "ready!" : "");
             return;
         } else if(this.container.length % 2 === 0 && this.container.length > 0) {
             this.lastOperator = this.container.pop();
             this.lastSet = this.container.slice(0);
             console.log(this.lastSet);
-            this.container[0] = operator.findAndOperate(this.container);
-            this.container.push(this.lastOperator, operator.findAndOperate(this.lastSet));
-            display.values(operator.findAndOperate(this.container));
+            this.container[0] = findAndCalculate.runOperations(this.container);
+            this.container.push(this.lastOperator, findAndCalculate.runOperations(this.lastSet));
+            display.values(findAndCalculate.runOperations(this.container));
          } else if(this.lastSet !== undefined){
              this.container.push(this.lastSet[1],this.lastSet[2]);
              console.log(this.container);
-             display.values(operator.findAndOperate(this.container));
-         // } else if(this.container.length === 1){
-         //     return;
+             display.values(findAndCalculate.runOperations(this.container));
          } else {
              this.lastSet = this.container.slice(0);
-             display.values(operator.findAndOperate(this.container));
+             display.values(findAndCalculate.runOperations(this.container));
          }
     };
 
@@ -80,57 +76,39 @@ function clickConstructor() {
                 this.container[this.container.length - 1] += (".");
                 this.decimal = true;
             }
+            display.values(this.container[this.container.length -1]);
             console.log(this.container);
         }
     }
 }
 
-var operator = {
-    findAndOperate : function (arrayInput) {
-        this.calculate = function () {
-            arrayInput[this.index] = this[arrayInput[this.index]](parseFloat(arrayInput[this.index-1]),parseFloat(arrayInput[this.index+1]));
-            arrayInput.splice(this.index - 1,1);
-            arrayInput.splice(this.index,1);
-        };
-
-        this.index = arrayInput.indexOf("X");
-        while (this.index !== -1){
-            this.calculate();
-            this.index = arrayInput.indexOf("X");
+var findAndCalculate = {
+    operators : {
+        "X" : function (numberOne, numberTwo) {
+            return numberOne * numberTwo;
+        },
+        "÷" : function (numberOne, numberTwo) {
+            return numberOne === 1 && numberTwo === 0 ? "Err0r!" : numberOne / numberTwo;
+        },
+        "+" : function (numberOne, numberTwo) {
+            return numberOne + numberTwo;
+        },
+        "-" : function (numberOne, numberTwo) {
+            return numberOne - numberTwo;
         }
-
-        this.index = arrayInput.indexOf("÷");
-        while (this.index !== -1){
-            this.calculate();
-            this.index = arrayInput.indexOf("÷");
-        }
-
-        this.index = arrayInput.indexOf("+");
-        while (this.index !== -1){
-            this.calculate();
-            this.index = arrayInput.indexOf("+");
-        }
-
-        this.index = arrayInput.indexOf("-");
-        while (this.index !== -1){
-            this.calculate();
-            this.index = arrayInput.indexOf("-");
+    },
+    runOperations : function (arrayInput) {
+        for(var operatorType in this.operators){
+            this.index = arrayInput.indexOf(operatorType);
+            while (this.index !== -1) {
+                arrayInput[this.index] = this.operators[operatorType](parseFloat(arrayInput[this.index-1]),parseFloat(arrayInput[this.index+1]));
+                arrayInput.splice(this.index - 1,1);
+                arrayInput.splice(this.index,1);
+                this.index = arrayInput.indexOf(operatorType);
+            }
         }
         console.log(arrayInput);
         return arrayInput[0];
-    },
-
-    "+" : function (numberOne, numberTwo) {
-        return numberOne + numberTwo;
-    },
-    "-" : function (numberOne, numberTwo) {
-        return numberOne - numberTwo;
-    },
-    "X" : function (numberOne, numberTwo) {
-        return numberOne * numberTwo;
-    },
-    "÷" : function (numberOne, numberTwo) {
-        return numberOne === 1 && numberTwo === 0 ? "Err0r!" : numberOne / numberTwo;
     }
 };
 
@@ -144,6 +122,7 @@ function clearConstructor() {
         click.decimal = false;
         click.lastOperator = undefined;
         click.lastSet = undefined;
+        click.emptyClick = 0;
         display.values("Cleared");
         setTimeout(function (){
             display.values("");
@@ -151,6 +130,7 @@ function clearConstructor() {
     };
     this.C = function () {
         display.values("");
+        click.emptyClick = 0;
         if(!isNaN(click.container[click.container.length - 1]) && click.container.length > 0 ) {
             click.decimal = false;
             click.container[click.container.length - 1] = "";
