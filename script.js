@@ -19,6 +19,7 @@ function clickHandler() {
 function clickConstructor() {
     this.container = [];
     this.decimal = false;
+    this.emptyClick = -1;
     this.numberClicked = function (number) {
         if(number === "="){
             this.equalSignClicked();
@@ -39,24 +40,35 @@ function clickConstructor() {
         this.decimal = false;
         if(!isNaN(this.container[this.container.length-1])){
             this.container.push(operator);
-        } else if(isNaN(this.container[this.container.length-1]) && this.container > 0) {
+        // } else if(isNaN(this.container[this.container.length-1]) && this.container > 0) {
+        //     this.container[this.container.length - 1] = operator;
+        } else if(this.container > 0){
             this.container[this.container.length - 1] = operator;
         }
         console.log(this.container);
     };
 
     this.equalSignClicked = function () {
-        if(this.container.length === 1){
-            this.container.push(this.lastSet[1],this.lastSet[2]);
-            console.log(this.container);
-            display.values(operator.findAndOperate(this.container));
-        } else {
+        if(this.container.length < 1){
+            display.values(++this.emptyClick % 4 === 0 ? "r3ady" : "");
+            return;
+        } else if(this.container.length % 2 === 0 && this.container.length > 0) {
+            this.lastOperator = this.container.pop();
             this.lastSet = this.container.slice(0);
-
-            display.values(operator.findAndOperate(this.container));
             console.log(this.lastSet);
-        }
-
+            this.container[0] = operator.findAndOperate(this.container);
+            this.container.push(this.lastOperator, operator.findAndOperate(this.lastSet));
+            display.values(operator.findAndOperate(this.container));
+         } else if(this.lastSet !== undefined){
+             this.container.push(this.lastSet[1],this.lastSet[2]);
+             console.log(this.container);
+             display.values(operator.findAndOperate(this.container));
+         // } else if(this.container.length === 1){
+         //     return;
+         } else {
+             this.lastSet = this.container.slice(0);
+             display.values(operator.findAndOperate(this.container));
+         }
     };
 
     this.decimalClicked = function () {
@@ -130,6 +142,8 @@ function clearConstructor() {
     this.CE = function () {
         click.container = [];
         click.decimal = false;
+        click.lastOperator = undefined;
+        click.lastSet = undefined;
         display.values("Cleared");
         setTimeout(function (){
             display.values("");
