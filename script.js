@@ -39,28 +39,23 @@ function clickConstructor() {
         this.decimal = false;
         if(!isNaN(this.container[this.container.length-1])){
             this.container.push(operator);
-        } else {
+        } else if(isNaN(this.container[this.container.length-1]) && this.container > 0) {
             this.container[this.container.length - 1] = operator;
         }
         console.log(this.container);
     };
 
     this.equalSignClicked = function () {
-        if(this.lastSet === undefined && this.answer === undefined){
-            this.lastSet = this.container.slice(0);
-            console.log("=");
-            console.log(this.lastSet);
-            this.answer = operator.findAndOperate(this.container);
-            display.values(this.answer);
-        } else {
-            console.log(this.lastSet);
-            this.container = this.lastSet.slice(0);
-            this.container[0] = this.answer;
+        if(this.container.length === 1){
+            this.container.push(this.lastSet[1],this.lastSet[2]);
             console.log(this.container);
-            this.answer = operator.findAndOperate(this.container);
-            display.values(this.answer);
-        }
+            display.values(operator.findAndOperate(this.container));
+        } else {
+            this.lastSet = this.container.slice(0);
 
+            display.values(operator.findAndOperate(this.container));
+            console.log(this.lastSet);
+        }
 
     };
 
@@ -109,9 +104,8 @@ var operator = {
             this.calculate();
             this.index = arrayInput.indexOf("-");
         }
-        console.log(arrayInput[0]);
-
-        return arrayInput.shift();
+        console.log(arrayInput);
+        return arrayInput[0];
     },
 
     "+" : function (numberOne, numberTwo) {
@@ -136,18 +130,16 @@ function clearConstructor() {
     this.CE = function () {
         click.container = [];
         click.decimal = false;
-        click.lastSet = undefined;
-        click.answer = undefined;
         display.values("Cleared");
         setTimeout(function (){
             display.values("");
         },100);
     };
     this.C = function () {
+        display.values("");
         if(!isNaN(click.container[click.container.length - 1]) && click.container.length > 0 ) {
             click.decimal = false;
             click.container[click.container.length - 1] = "";
-            display.values("");
         }
     };
 }
