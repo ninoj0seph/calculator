@@ -17,7 +17,7 @@ function clickHandler() {
 }
 
 function clickConstructor() {
-    this.container = [];
+    this.container = this.lastSet = [];
     this.decimal = false;
     this.emptyClick = 0;
     this.numberClicked = function (number) {
@@ -57,14 +57,14 @@ function clickConstructor() {
             this.container[0] = findAndCalculate.runOperations(this.container);
             this.container.push(this.lastOperator, findAndCalculate.runOperations(this.lastSet));
             display.values(findAndCalculate.runOperations(this.container));
-         } else if(this.lastSet !== undefined){
+        } else if(this.lastSet.length > 1){
              this.container.push(this.lastSet[1],this.lastSet[2]);
              console.log(this.container);
              display.values(findAndCalculate.runOperations(this.container));
-         } else {
+        } else {
              this.lastSet = this.container.slice(0);
              display.values(findAndCalculate.runOperations(this.container));
-         }
+        }
     };
 
     this.decimalClicked = function () {
@@ -117,17 +117,18 @@ function clearConstructor() {
             this[type]();
             console.log(click.container);
         };
+
     this.CE = function () {
-        click.container = [];
+        click.container = click.lastSet = [];
         click.decimal = false;
         click.lastOperator = undefined;
-        click.lastSet = undefined;
         click.emptyClick = 0;
         display.values("Cleared");
         setTimeout(function (){
             display.values("");
         },100);
     };
+
     this.C = function () {
         display.values("");
         click.emptyClick = 0;
