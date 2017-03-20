@@ -8,10 +8,10 @@ function clickHandler() {
     $(".numberButtonsContainer").on('click', 'div', function (){
         click.numberClicked($(this).text());
     });
-    $(".operatorButtonContainer").on('click', 'div', function () {
+    $(".operatorButtonContainer").on('click', 'div', function (){
         click.operatorClicked($(this).text());
     });
-    $(".clearButtonsContainer").on('click', 'div', function () {
+    $(".clearButtonsContainer").on('click', 'div', function (){
         reset.clear($(this).text());
     });
 }
