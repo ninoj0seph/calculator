@@ -1,4 +1,5 @@
 //Console.logs are available and present for demonstration and review purposes only but will be deleted on final release.
+
 var reset = new clearConstructor();
 var click = new clickConstructor();
 var display = new displayConstructor();
@@ -48,28 +49,26 @@ function clickConstructor() {
         }
         console.log(this.container);
     };
-
-    this.equalSignClicked = function () {
-        this.decimal = false;
-        if(this.container.length < 1){
-            display.values(++this.emptyClick % 4 === 0? "ready!" : "");
-        } else if(this.container.length % 2 === 0 && this.container.length > 0) {
-            this.lastOperator = this.container.pop();
-            this.lastSet = this.container.slice(0);
-            this.container[0] = findAndCalculate.runOperations(this.container);
-            this.container.push(this.lastOperator, findAndCalculate.runOperations(this.lastSet));
-            display.values(findAndCalculate.runOperations(this.container));
-        }else if(this.lastSet[1] !== undefined && this.lastSet[2] !== undefined && this.container.length < 3){
-             this.container.push(this.lastSet[1],this.lastSet[2]);
-             this.lastSet = this.container.slice(0);
-             console.log(this.container);
-             display.values(findAndCalculate.runOperations(this.container));
-        } else {
-             this.lastSet = this.container.slice(0);
-             display.values(findAndCalculate.runOperations(this.container));
-        }
-    };
-
+    ///LFZ START
+    // declare function that will be called when equal sign has been clicked
+        // set decimal to false
+        /* check if number container array is empty run this code
+             increment the empty counter click, call display values with the parameters: check if empty click counter is divisible by 4 then it would be string ready if not it would be empty string.*/
+        /* check if number array container is divisible by 2 and container.length is more than 0
+            create a variable to to get the last operator form the container array
+            create a variable that copies the container array
+            call calculate function and set its return value to first index of container array
+            push to the container array the last operator variable and call the find and calculate function and set its parameter as the last set then include its result to the push
+            call display value function with parameter: call function the find and calculate function with the parameter of the container array
+           */
+        /* check if second index of variable that holds the last set is not undefined and check if third index of variable that holds the last set is not undefined and container array length is no more than 3
+            add the variable that holds the last set index 2 and 3 to container array
+            copy the container array and set it to a variable that holds the last set
+            call display values with the parameter: call the function find and calculate with the parameters as the array container*/
+        /* default statement
+            copy the container array to a variable that holds the last set
+            call function display values with the parameter of: call find and calculate run operations function with the parameter of the array container*/
+    ///LFZ END
     this.decimalClicked = function () {
         if(this.decimal === false){
             if(isNaN(this.container[this.container.length-1])){
@@ -120,16 +119,16 @@ function clearConstructor() {
             this[type]();
             console.log(click.container);
         };
+    ///LFZ START
+    /* create a clear all function
+        set the container to empty
+        set the last set to empty
+        set decimal to false
+        set empty click to 0
+        call function display values with parameters cleared
+        */
 
-    this.CE = function () {
-        click.container = [];
-        click.lastSet = [];
-        click.decimal = false;
-        click.lastOperator = undefined;
-        click.emptyClick = 0;
-        display.values("Cleared");
-    };
-
+    ///LFZ END
     this.C = function () {
         display.values("");
         click.emptyClick = 0;
