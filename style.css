@@ -1,4 +1,8 @@
 body {
+    background-image: url("background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
     font-family: 'Roboto', sans-serif;
 }
 .container{
@@ -9,6 +13,7 @@ body {
     font-size: 2.0em;
     border-radius: 10px;
     margin: 0 auto;
+
 }
 
 .brandName{
@@ -114,6 +119,7 @@ body {
 
 @media screen and (max-width: 500px) {
     body{
+        background-image: none;
         background-color: #0f192a;
     }
 
