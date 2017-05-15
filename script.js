@@ -12,7 +12,7 @@ function clickHandler() {
         click.operatorClicked($(this).text());
     });
     $(".clearButtonsContainer").on('click', 'div', function () {
-        reset.clear($(this).text());
+        reset[$(this).text()]();
     });
 }
 
@@ -114,10 +114,6 @@ var findAndCalculate = {
 };
 
 function clearConstructor() {
-    this.clear = function (type) {
-            this[type]();
-        };
-
     this.CE = function () {
         click.container = [];
         click.lastSet = [];
@@ -139,6 +135,6 @@ function clearConstructor() {
 
 function displayConstructor(){
     this.values = function (valueToDisplay) {
-        $('.displayBox').text(valueToDisplay);
+        $('.displayBox div').text(valueToDisplay);
     };
 }
