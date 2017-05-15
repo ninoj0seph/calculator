@@ -24,19 +24,18 @@ function clickConstructor() {
         if(number === "="){
             this.equalSignClicked();
             return;
-        } else if(number === "."){
+        } else if(number === ".") {
             this.decimalClicked();
             return;
-        } else if(typeof(this.container[0]) === "number"){
+        } else if(typeof(this.container[0]) === "number" && this.container.length <= 1){
             reset.CE();
-            this.container.push(number);
+            this.container.push(number)
         } else if(!isNaN(this.container[this.container.length - 1]) || this.decimal){
             this.container[this.container.length - 1] += (number);
         } else {
             this.container.push(number);
         }
-        display.values(this.container[this.container.length -1]);
-        console.log(this.container);
+        display.values(this.container.join(''));
     };
 
     this.operatorClicked = function (operator) {
@@ -46,7 +45,7 @@ function clickConstructor() {
         } else if(this.container.length >= 1){
             this.container[this.container.length - 1] = operator;
         }
-        console.log(this.container);
+        display.values(this.container.join(''));
     };
 
     this.equalSignClicked = function () {
@@ -62,7 +61,6 @@ function clickConstructor() {
         }else if(this.lastSet[1] !== undefined && this.lastSet[2] !== undefined && this.container.length < 3){
              this.container.push(this.lastSet[1],this.lastSet[2]);
              this.lastSet = this.container.slice(0);
-             console.log(this.container);
              display.values(findAndCalculate.runOperations(this.container));
         } else {
              this.lastSet = this.container.slice(0);
@@ -74,13 +72,14 @@ function clickConstructor() {
         if(this.decimal === false){
             if(isNaN(this.container[this.container.length-1])){
                 this.container.push(".");
-                this.decimal = true;
+            } else if(typeof(this.container[0]) === "number" && this.container.length <= 1){
+                reset.CE();
+                this.container.push('.');
             } else {
                 this.container[this.container.length - 1] += (".");
-                this.decimal = true;
             }
-            display.values(this.container[this.container.length -1]);
-            console.log(this.container);
+            this.decimal = true;
+            display.values(this.container.join(''));
         }
     }
 }
@@ -90,7 +89,7 @@ var findAndCalculate = {
         "X" : function (numberOne, numberTwo) {
             return numberOne * numberTwo;
         },
-        "÷" : function (numberOne, numberTwo) {
+        "/" : function (numberOne, numberTwo) {
             return numberOne === 1 && numberTwo === 0 ? "Err0r!" : numberOne / numberTwo;
         },
         "+" : function (numberOne, numberTwo) {
@@ -110,7 +109,6 @@ var findAndCalculate = {
                 this.index = arrayInput.indexOf(operatorType);
             }
         }
-        console.log(arrayInput);
         return arrayInput[0];
     }
 };
@@ -118,7 +116,6 @@ var findAndCalculate = {
 function clearConstructor() {
     this.clear = function (type) {
             this[type]();
-            console.log(click.container);
         };
 
     this.CE = function () {
