@@ -21,6 +21,7 @@ function clickConstructor() {
     this.decimal = false;
     this.emptyClick = 0;
     this.numberClicked = function (number) {
+
         if(number === "="){
             this.equalSignClicked();
             return;
@@ -29,7 +30,7 @@ function clickConstructor() {
             return;
         } else if(typeof(this.container[0]) === "number" && this.container.length <= 1){
             reset.CE();
-            this.container.push(number)
+            this.container.push(parseInt(number))
         } else if(!isNaN(this.container[this.container.length - 1]) || this.decimal){
             this.container[this.container.length - 1] += (number);
         } else {
@@ -100,10 +101,15 @@ var findAndCalculate = {
         }
     },
     runOperations : function (arrayInput) {
+        let firstDigitLength = arrayInput[0].toString().length;
+        let secondDigitLength = arrayInput[2].toString().length;
+        let wholeLength = firstDigitLength < secondDigitLength ? firstDigitLength : secondDigitLength;
+        console.log(wholeLength);
+
         for(var operatorType in this.operators){
             this.index = arrayInput.indexOf(operatorType);
             while (this.index !== -1) {
-                arrayInput[this.index] = this.operators[operatorType](parseFloat(arrayInput[this.index-1]),parseFloat(arrayInput[this.index+1]));
+                arrayInput[this.index] = this.operators[operatorType](parseFloat(arrayInput[this.index-1]),parseFloat(arrayInput[this.index+1])).toFixed(wholeLength - 1);
                 arrayInput.splice(this.index - 1,1);
                 arrayInput.splice(this.index,1);
                 this.index = arrayInput.indexOf(operatorType);
@@ -135,6 +141,6 @@ function clearConstructor() {
 
 function displayConstructor(){
     this.values = function (valueToDisplay) {
-        $('.displayBox div').text(valueToDisplay);
+        $('.displayBox').text(valueToDisplay);
     };
 }
