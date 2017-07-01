@@ -104,8 +104,6 @@ var findAndCalculate = {
         let firstDigitLength = arrayInput[0].toString().length;
         let secondDigitLength = arrayInput[2].toString().length;
         let wholeLength = firstDigitLength < secondDigitLength ? firstDigitLength : secondDigitLength;
-        console.log(wholeLength);
-
         for(var operatorType in this.operators){
             this.index = arrayInput.indexOf(operatorType);
             while (this.index !== -1) {
