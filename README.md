@@ -1,14 +1,15 @@
 # Calculator
-A functional calculator with Order of Operations.
+A functional calculator with basic, order, comprehensive, and advanced operations.
 
-##Features
-###BASIC OPERATIONS
+## Features
+
+### BASIC OPERATIONS
 - Addition - 1 + 2 = 3
 - Multiplication - 1 * 2 = 2
 - Division - 1 / 2 = 0.5
 - Subtraction - 1 - 2 = -1
  
-###COMPREHENSIVE OPERATIONS
+### COMPREHENSIVE OPERATIONS
 - Successive operations - 1 + 1 + 2 = 4
 - Decimals - 1 . 1 + 1 . 1 = 2.2
 - Multiple decimals - 1 ... 1 + 1 ... 1 = 2.2
@@ -18,7 +19,7 @@ A functional calculator with Order of Operations.
 - Operation rollover - 1 + 1 + = + = -> 8
 - Division by zero - 1 / 0	= "Error"
 
-###ADVANCED OPERATIONS
+### ADVANCED OPERATIONS
 - Premature operation - ++++ 1 * 3 = 3
 - Missing operation - 3 = 3
 - Partial operand - 3 * = 9
@@ -26,7 +27,7 @@ A functional calculator with Order of Operations.
 - Plus/minus - 4 ± + 4 ± = -> -8 
 - Binary rounding - 0.1 + 0.2 -> 0.3 (not 0.300000004)
 
-##Stacks Used
+## Stacks Used
 - Javascript
 - jQuery
 - HTML
